@@ -196,9 +196,8 @@ public class Main {
   public static void main(String[] args) {
     try {
       // 读取文件
-      String currentDir = System.getProperty("user.dir");
       String fileName = "test.txt";
-      String filePath = currentDir + "/" + fileName;
+      String filePath = fileName;
       BufferedReader reader = new BufferedReader(new FileReader(filePath));
       String line;
 
