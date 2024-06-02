@@ -76,7 +76,7 @@ public class Main {
                 list.add(posToWord.get(i));
             }
         }
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             return list;
         } else {
             return null;
@@ -94,7 +94,7 @@ public class Main {
         visited.add(pre);
         HashMap<Integer, Integer> way = new HashMap<>();//存放bfs过程中的路径
         boolean ok = false;
-        while (queue.size() > 0) {
+        while (!queue.isEmpty()) {
             pre = queue.pollFirst();
             for (int i = 0; i < graph.length; i++) {
                 if (!visited.contains(i) && graph[pre][i] == 1) {
@@ -115,8 +115,7 @@ public class Main {
             l.add(end);
             int pos = end;
             while (pos != start) {
-                int next = way.get(pos);
-                pos = next;
+                pos = way.get(pos);
                 l.add(pos);
             }
             StringBuilder res = new StringBuilder();
@@ -124,7 +123,7 @@ public class Main {
                 res.append(posToWord.get(l.get(i)));
                 res.append("->");
             }
-            return res.toString().substring(0, res.length() - 2);
+            return res.substring(0, res.length() - 2);
 
 
         } else {
@@ -132,7 +131,7 @@ public class Main {
         }
     }
 
-    public static String randomWalk(int[][] graph, HashMap<String, Integer> words, HashMap<Integer, String> posToWord) {
+    public static String randomWalk(int[][] graph, HashMap<Integer, String> posToWord) {
         // 创建Random对象
         Random random = new Random();
         StringBuilder res = new StringBuilder();
@@ -267,7 +266,7 @@ public class Main {
                     System.out.println(calcShortestPath(word1, word2, graph, words, posToWord));
                 } else if (command.equals("random")) {
                     //随机游走
-                    System.out.println(randomWalk(graph, words, posToWord));
+                    System.out.println(randomWalk(graph, posToWord));
                 } else if (command.equals("generate")) {
                     //根据bridge生成新文本
                     if (scanner.hasNextLine())
