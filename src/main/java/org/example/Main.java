@@ -276,6 +276,7 @@ public class Main {
                     String inputText = scanner.nextLine();
                     System.out.println(generateNewText(inputText, graph, words, posToWord));
                 } else if (command.equals("quit")) {
+                    scanner.close();
                     return;
                 } else {
                     System.out.println("未知命令: " + command);
@@ -286,6 +287,7 @@ public class Main {
         catch (Exception e) {
             e.printStackTrace();
         }
+        scanner.close();
     }
 
     public static void main(String[] args) {
