@@ -1,0 +1,417 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=GBK"> 
+  <title>Coverage Report > Main</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example</a>
+</div>
+
+<h1>Coverage Summary for Class: Main (org.example)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Main</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    35.7%
+  </span>
+  <span class="absValue">
+    (5/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    34.3%
+  </span>
+  <span class="absValue">
+    (37/108)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22.5%
+  </span>
+  <span class="absValue">
+    (39/173)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.FileReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;// this is a comment
+&nbsp;
+<b class="nc">&nbsp;public class Main {</b>
+&nbsp;    public static boolean isLetter(char x) {
+<b class="pc">&nbsp;        return (x &gt;= &#39;a&#39; &amp;&amp; x &lt;= &#39;z&#39;) || (x &gt;= &#39;A&#39; &amp;&amp; x &lt;= &#39;Z&#39;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean isSplit(char x) {
+<b class="pc">&nbsp;        return x == &#39; &#39; || x == &#39;,&#39; || x == &#39;，&#39; || x == &#39;;&#39; || x == &#39;:&#39;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int[][] generateGraph(HashMap&lt;String, Integer&gt; words, String[] s) {
+<b class="fc">&nbsp;        int n = words.size();</b>
+<b class="fc">&nbsp;        int[][] graph = new int[n][n];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; s.length - 1; i++) {</b>
+<b class="fc">&nbsp;            graph[words.get(s[i])][words.get(s[i + 1])] = 1;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return graph;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void showDirectedGraph(int[][] graph, HashMap&lt;Integer, String&gt; map) {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; graph.length; i++) {</b>
+<b class="nc">&nbsp;            System.out.print(map.get(i));</b>
+<b class="nc">&nbsp;            System.out.print(&quot; -&gt; &quot;);</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; graph[i].length; j++) {</b>
+<b class="nc">&nbsp;                if (graph[i][j] == 1) {</b>
+<b class="nc">&nbsp;                    System.out.print(map.get(j));</b>
+<b class="nc">&nbsp;                    System.out.print(&quot;, &quot;);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String queryBridgeWordsToString(String word1, String word2, int[][] graph, HashMap&lt;String, Integer&gt; words, HashMap&lt;Integer, String&gt; posToWord) {
+<b class="nc">&nbsp;        List&lt;String&gt; bridgeWords = queryBridgeWords(word1, word2, graph, words, posToWord);</b>
+<b class="nc">&nbsp;        if (bridgeWords == null) {</b>
+<b class="nc">&nbsp;            return &quot;No &quot; + word1 + &quot; or &quot; + word2 + &quot; in the graph!&quot;;</b>
+<b class="nc">&nbsp;        } else if (!bridgeWords.isEmpty()) {</b>
+<b class="nc">&nbsp;            return &quot;The bridge words from &quot; + word1 + &quot; to &quot; + word2 + &quot; are: &quot; + bridgeWords.toString();</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            return &quot;No bridge words from &quot; + word1 + &quot; to &quot; +  word2 + &quot;!&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static ArrayList&lt;String&gt; queryBridgeWords(String word1, String word2, int[][] graph, HashMap&lt;String, Integer&gt; words, HashMap&lt;Integer, String&gt; posToWord) {
+<b class="fc">&nbsp;        if (!words.containsKey(word1) || !words.containsKey(word2)) {</b>
+<b class="fc">&nbsp;            return null;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        int p1 = words.get(word1);</b>
+<b class="fc">&nbsp;        int p2 = words.get(word2);</b>
+&nbsp;        //存放桥接单词
+<b class="fc">&nbsp;        ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();</b>
+&nbsp;        //找到p1的邻接点
+<b class="fc">&nbsp;        for (int i = 0; i &lt; graph.length; i++) {</b>
+<b class="fc">&nbsp;            if (graph[p1][i] == 1 &amp;&amp; graph[i][p2] == 1) {</b>
+<b class="fc">&nbsp;                list.add(posToWord.get(i));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return list;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String calcShortestPath(String word1, String word2, int[][] graph, HashMap&lt;String, Integer&gt; words, HashMap&lt;Integer, String&gt; posToWord) {
+&nbsp;        //使用bfs寻找最短路径
+<b class="nc">&nbsp;        ArrayDeque&lt;Integer&gt; queue = new ArrayDeque&lt;&gt;();</b>
+<b class="nc">&nbsp;        int start = words.get(word1);</b>
+<b class="nc">&nbsp;        int end = words.get(word2);</b>
+<b class="nc">&nbsp;        int pre = start;</b>
+<b class="nc">&nbsp;        queue.addLast(start);</b>
+<b class="nc">&nbsp;        HashSet&lt;Integer&gt; visited = new HashSet&lt;&gt;();//存放遍历过的结点</b>
+<b class="nc">&nbsp;        visited.add(pre);</b>
+<b class="nc">&nbsp;        HashMap&lt;Integer, Integer&gt; way = new HashMap&lt;&gt;();//存放bfs过程中的路径</b>
+<b class="nc">&nbsp;        boolean ok = false;</b>
+<b class="nc">&nbsp;        while (!queue.isEmpty()) {</b>
+<b class="nc">&nbsp;            pre = queue.pollFirst();</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; graph.length; i++) {</b>
+<b class="nc">&nbsp;                if (!visited.contains(i) &amp;&amp; graph[pre][i] == 1) {</b>
+<b class="nc">&nbsp;                    visited.add(i);</b>
+<b class="nc">&nbsp;                    way.put(i, pre);</b>
+<b class="nc">&nbsp;                    queue.add(i);</b>
+<b class="nc">&nbsp;                    if (i == end) {</b>
+<b class="nc">&nbsp;                        ok = true;</b>
+&nbsp;                        break;
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            if (ok) break;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (ok) {</b>
+&nbsp;            //从end开始倒序找路径
+<b class="nc">&nbsp;            ArrayList&lt;Integer&gt; l = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;            l.add(end);</b>
+<b class="nc">&nbsp;            int pos = end;</b>
+<b class="nc">&nbsp;            while (pos != start) {</b>
+<b class="nc">&nbsp;                pos = way.get(pos);</b>
+<b class="nc">&nbsp;                l.add(pos);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            StringBuilder res = new StringBuilder();</b>
+<b class="nc">&nbsp;            for (int i = l.size() - 1; i &gt;= 0; i--) {</b>
+<b class="nc">&nbsp;                res.append(posToWord.get(l.get(i)));</b>
+<b class="nc">&nbsp;                res.append(&quot;-&gt;&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            return res.substring(0, res.length() - 2);</b>
+&nbsp;
+&nbsp;
+&nbsp;        } else {
+<b class="nc">&nbsp;            return &quot;不可达&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String randomWalk(int[][] graph, HashMap&lt;Integer, String&gt; posToWord) {
+&nbsp;        // 创建Random对象
+<b class="nc">&nbsp;        Random random = new Random();</b>
+<b class="nc">&nbsp;        StringBuilder res = new StringBuilder();</b>
+&nbsp;        //随机选择起点
+<b class="nc">&nbsp;        int pos = random.nextInt(graph.length);</b>
+<b class="nc">&nbsp;        res.append(posToWord.get(pos));</b>
+<b class="nc">&nbsp;        res.append(&quot; &quot;);</b>
+&nbsp;        while (true) {
+<b class="nc">&nbsp;            int cnt = 0;</b>
+<b class="nc">&nbsp;            ArrayList&lt;Integer&gt; possible = new ArrayList&lt;&gt;();//存放可能的下一个结点</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; graph.length; i++) {</b>
+<b class="nc">&nbsp;                if (graph[pos][i] == 1) {</b>
+<b class="nc">&nbsp;                    possible.add(i);</b>
+<b class="nc">&nbsp;                    cnt++;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            if (cnt == 0) break;</b>
+&nbsp;            //随机选一个结点
+<b class="nc">&nbsp;            int next_pos = random.nextInt(cnt);</b>
+<b class="nc">&nbsp;            int next = possible.get(next_pos);</b>
+<b class="nc">&nbsp;            graph[pos][next] = 2;</b>
+<b class="nc">&nbsp;            pos = next;</b>
+<b class="nc">&nbsp;            res.append(posToWord.get(pos));</b>
+<b class="nc">&nbsp;            res.append(&quot; &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (int i = 0; i &lt; graph.length; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; graph[i].length; j++) {</b>
+<b class="nc">&nbsp;                graph[i][j] = graph[i][j] == 2 ? 1 : graph[i][j];</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return res.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //根据bridge word生成新文本
+&nbsp;    public static String generateNewText(String inputText, int[][] graph, HashMap&lt;String, Integer&gt; words, HashMap&lt;Integer, String&gt; posToWord) {
+<b class="nc">&nbsp;        String[] ss = inputText.split(&quot; &quot;);</b>
+<b class="nc">&nbsp;        Random random = new Random();</b>
+<b class="nc">&nbsp;        ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; ss.length - 1; i++) {</b>
+<b class="nc">&nbsp;            list.add(ss[i]);</b>
+<b class="nc">&nbsp;            ArrayList&lt;String&gt; bridges = queryBridgeWords(ss[i], ss[i + 1], graph, words, posToWord);</b>
+<b class="nc">&nbsp;            if (bridges != null &amp;&amp; !bridges.isEmpty()) {</b>
+&nbsp;                //随机选一个加入
+<b class="nc">&nbsp;                int pos = random.nextInt(bridges.size());</b>
+<b class="nc">&nbsp;                list.add(bridges.get(pos));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        list.add(ss[ss.length - 1]);</b>
+<b class="nc">&nbsp;        StringBuilder res = new StringBuilder();</b>
+<b class="nc">&nbsp;        for (String s : list) {</b>
+<b class="nc">&nbsp;            res.append(s);</b>
+<b class="nc">&nbsp;            res.append(&quot; &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return res.toString();</b>
+&nbsp;
+&nbsp;    }
+&nbsp;    public static void getFileContent(String filePath,
+&nbsp;                                      HashMap&lt;String, Integer&gt; words,
+&nbsp;                                      HashMap&lt;Integer, String&gt; posToWord,
+&nbsp;                                      ArrayList&lt;String&gt; list) throws IOException {
+<b class="fc">&nbsp;        BufferedReader reader = new BufferedReader(new FileReader(filePath));</b>
+&nbsp;
+<b class="fc">&nbsp;        int pos = 0;//每个单词的下标</b>
+&nbsp;        // 逐行读取文件内容
+&nbsp;        String line;
+<b class="fc">&nbsp;        while ((line = reader.readLine()) != null) {</b>
+&nbsp;            // 提取出有效单词信息
+<b class="fc">&nbsp;            StringBuilder temp = new StringBuilder();</b>
+<b class="fc">&nbsp;            for (char c : line.toCharArray()) {</b>
+<b class="fc">&nbsp;                if (isSplit(c)) {</b>
+<b class="pc">&nbsp;                    if (temp.length() &gt; 0) {</b>
+<b class="fc">&nbsp;                        list.add(temp.toString());</b>
+<b class="fc">&nbsp;                        if (words.containsKey(temp.toString())) {</b>
+<b class="fc">&nbsp;                            temp.setLength(0);</b>
+&nbsp;                            continue;
+&nbsp;                        }
+<b class="fc">&nbsp;                        words.put(temp.toString(), pos);</b>
+<b class="fc">&nbsp;                        posToWord.put(pos, temp.toString());</b>
+<b class="fc">&nbsp;                        pos++;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    temp.setLength(0);</b>
+<b class="pc">&nbsp;                } else if (isLetter(c)) {</b>
+<b class="fc">&nbsp;                    temp.append(c);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    temp.setLength(0);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;            //处理行末尾单词
+<b class="fc">&nbsp;            if (temp.length() &gt; 0) {</b>
+<b class="fc">&nbsp;                list.add(temp.toString());</b>
+<b class="pc">&nbsp;                if (words.containsKey(temp.toString())) {</b>
+&nbsp;                    continue;
+&nbsp;                }
+<b class="fc">&nbsp;                words.put(temp.toString(), pos);</b>
+<b class="fc">&nbsp;                posToWord.put(pos, temp.toString());</b>
+<b class="fc">&nbsp;                pos++;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        // 关闭文件
+<b class="fc">&nbsp;        reader.close();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void showInteractiveHelp() {
+<b class="nc">&nbsp;        System.out.println(&quot;输入下列命令:&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;bridge: 查询桥接词&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;path: 查询最短路径&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;random: 随机游走&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;generate: 生成新文本&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;quit: 退出&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void interactiveLoop(int[][] graph, HashMap&lt;String, Integer&gt; words, HashMap&lt;Integer, String&gt; posToWord) {
+<b class="nc">&nbsp;        Scanner scanner = new Scanner(System.in);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            showInteractiveHelp();</b>
+&nbsp;            while (true) {
+<b class="nc">&nbsp;                String command = scanner.next();</b>
+<b class="nc">&nbsp;                if (command.equals(&quot;bridge&quot;)) {</b>
+&nbsp;                    //查询桥接词
+<b class="nc">&nbsp;                    System.out.print(&quot;第一个词：&quot;);</b>
+<b class="nc">&nbsp;                    String word1 = scanner.next();</b>
+<b class="nc">&nbsp;                    System.out.print(&quot;第二个词：&quot;);</b>
+<b class="nc">&nbsp;                    String word2 = scanner.next();</b>
+<b class="nc">&nbsp;                    System.out.print(&quot;桥接词为：&quot;);</b>
+<b class="nc">&nbsp;                    System.out.println(queryBridgeWordsToString(word1, word2, graph, words, posToWord));</b>
+<b class="nc">&nbsp;                } else if (command.equals(&quot;path&quot;)) {</b>
+&nbsp;                    //输出最短路径
+<b class="nc">&nbsp;                    System.out.print(&quot;第一个词：&quot;);</b>
+<b class="nc">&nbsp;                    String word1 = scanner.next();</b>
+<b class="nc">&nbsp;                    System.out.print(&quot;第二个词：&quot;);</b>
+<b class="nc">&nbsp;                    String word2 = scanner.next();</b>
+<b class="nc">&nbsp;                    System.out.println(calcShortestPath(word1, word2, graph, words, posToWord));</b>
+<b class="nc">&nbsp;                } else if (command.equals(&quot;random&quot;)) {</b>
+&nbsp;                    //随机游走
+<b class="nc">&nbsp;                    System.out.println(randomWalk(graph, posToWord));</b>
+<b class="nc">&nbsp;                } else if (command.equals(&quot;generate&quot;)) {</b>
+&nbsp;                    //根据bridge生成新文本
+<b class="nc">&nbsp;                    if (scanner.hasNextLine())</b>
+<b class="nc">&nbsp;                        scanner.nextLine();</b>
+<b class="nc">&nbsp;                    System.out.print(&quot;输入新文本：&quot;);</b>
+<b class="nc">&nbsp;                    String inputText = scanner.nextLine();</b>
+<b class="nc">&nbsp;                    System.out.println(generateNewText(inputText, graph, words, posToWord));</b>
+<b class="nc">&nbsp;                } else if (command.equals(&quot;quit&quot;)) {</b>
+<b class="nc">&nbsp;                    scanner.close();</b>
+&nbsp;                    return;
+&nbsp;                } else {
+<b class="nc">&nbsp;                    System.out.println(&quot;未知命令: &quot; + command);</b>
+<b class="nc">&nbsp;                    showInteractiveHelp();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        scanner.close();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void main(String[] args) {
+<b class="nc">&nbsp;        if (args.length == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Usage: java org.example.Main &lt;file&gt;&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;        try {
+<b class="nc">&nbsp;            String filePath = args[0];</b>
+&nbsp;             //临时存放有效单词集合(字符串映射图中对应下标)
+<b class="nc">&nbsp;            HashMap&lt;String, Integer&gt; words = new HashMap&lt;&gt;();</b>
+&nbsp;            //存放图中下标对应的字符串
+<b class="nc">&nbsp;            HashMap&lt;Integer, String&gt; posToWord = new HashMap&lt;&gt;();</b>
+&nbsp;            //存放单词的位置信息
+<b class="nc">&nbsp;            ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;            getFileContent(filePath, words, posToWord, list);</b>
+&nbsp;
+&nbsp;            //生成图结构
+<b class="nc">&nbsp;            int[][] graph = generateGraph(words, list.toArray(new String[0]));</b>
+&nbsp;
+&nbsp;            //展示图结构
+<b class="nc">&nbsp;            showDirectedGraph(graph, posToWord);</b>
+<b class="nc">&nbsp;            interactiveLoop(graph, words, posToWord);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-11 17:16</div>
+</div>
+</body>
+</html>
