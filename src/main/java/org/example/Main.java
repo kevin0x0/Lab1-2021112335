@@ -39,30 +39,18 @@ public class Main {
         }
     }
 
-    public static String queryBridgeWords(String word1, String word2, int[][] graph, HashMap<String, Integer> words, HashMap<Integer, String> posToWord) {
-        if (!words.containsKey(word1) || !words.containsKey(word2)) {
+    public static String queryBridgeWordsToString(String word1, String word2, int[][] graph, HashMap<String, Integer> words, HashMap<Integer, String> posToWord) {
+        List<String> bridgeWords = queryBridgeWords(word1, word2, graph, words, posToWord);
+        if (bridgeWords == null) {
             return "No " + word1 + " or " + word2 + " in the graph!";
-        }
-        int p1 = words.get(word1);
-        int p2 = words.get(word2);
-        //存放桥接单词
-        ArrayList<String> list = new ArrayList<>();
-        //找到p1的邻接点
-        for (int i = 0; i < graph.length; i++) {
-            if (graph[p1][i] == 1 && graph[i][p2] == 1) {
-                list.add(posToWord.get(i));
-            }
-        }
-        if (!list.isEmpty()) {
-            String res = "The bridge words from " + word1 + " to " + word2 + " are: ";
-            res += list.toString();
-            return res;
+        } else if (!bridgeWords.isEmpty()) {
+            return "The bridge words from " + word1 + " to " + word2 + " are: " + bridgeWords.toString();
         } else {
             return "No bridge words from " + word1 + " to " +  word2 + "!";
         }
     }
 
-    public static ArrayList<String> queryBridgeWords2(String word1, String word2, int[][] graph, HashMap<String, Integer> words, HashMap<Integer, String> posToWord) {
+    public static ArrayList<String> queryBridgeWords(String word1, String word2, int[][] graph, HashMap<String, Integer> words, HashMap<Integer, String> posToWord) {
         if (!words.containsKey(word1) || !words.containsKey(word2)) {
             return null;
         }
@@ -76,11 +64,7 @@ public class Main {
                 list.add(posToWord.get(i));
             }
         }
-        if (!list.isEmpty()) {
-            return list;
-        } else {
-            return null;
-        }
+        return list;
     }
 
     public static String calcShortestPath(String word1, String word2, int[][] graph, HashMap<String, Integer> words, HashMap<Integer, String> posToWord) {
@@ -172,8 +156,8 @@ public class Main {
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < ss.length - 1; i++) {
             list.add(ss[i]);
-            ArrayList<String> bridges = queryBridgeWords2(ss[i], ss[i + 1], graph, words, posToWord);
-            if (bridges != null) {
+            ArrayList<String> bridges = queryBridgeWords(ss[i], ss[i + 1], graph, words, posToWord);
+            if (bridges != null && !bridges.isEmpty()) {
                 //随机选一个加入
                 int pos = random.nextInt(bridges.size());
                 list.add(bridges.get(pos));
@@ -256,7 +240,7 @@ public class Main {
                     System.out.print("第二个词：");
                     String word2 = scanner.next();
                     System.out.print("桥接词为：");
-                    System.out.println(queryBridgeWords(word1, word2, graph, words, posToWord));
+                    System.out.println(queryBridgeWordsToString(word1, word2, graph, words, posToWord));
                 } else if (command.equals("path")) {
                     //输出最短路径
                     System.out.print("第一个词：");
